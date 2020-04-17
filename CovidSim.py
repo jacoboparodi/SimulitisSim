@@ -171,14 +171,14 @@ class Population:
 
     def Colormapping(self,Status):
     
-        if Status == "SICK": return 0
-        elif Status == "Healthy": return 0.5
-        elif Status == "Recovered":  return 0.3
+        if Status == "SICK": return 0               # Purple
+        elif Status == "Healthy": return 0.5        # Yellow
+        elif Status == "Recovered":  return 0.3     # Kind of blue (?)
 
 
     def update_plot(self,i,X,Y,Status,scat):
 
-        # Axes1
+        # Axis 1
         scat.set_offsets(np.array([X[i],Y[i]]).T)
         scat.set_array( np.array(list(map(self.Colormapping,Status[i]))) )
         
@@ -186,7 +186,9 @@ class Population:
                                         'Healthy = {}'.format(self.Healthy[i]),
                                         'Sick = {}'.format(self.Sick[i]),
                                         'Recovered = {}'.format(self.Recovered[i]) )))
-
+        
+        # Axis 2
+        
         self.lineH.set_data(range(i),[self.Healthy[:i]])
         self.lineS.set_data(range(i),[self.Sick[:i]])
         self.lineR.set_data(range(i),[self.Recovered[:i]])
@@ -206,7 +208,7 @@ class Population:
         fig = plt.figure(figsize = (10,5))
         self.ax1 = fig.add_subplot(121)
 
-        # Axes 1
+        # Axis 1
         
         self.ax1.set_aspect("equal")
 
@@ -221,7 +223,7 @@ class Population:
         s = ((self.ax1.get_window_extent().width  / (vmax-vmin+2*ext) * 72./fig.dpi) ** 2)
         scat = self.ax1.scatter(X[0],Y[0],s= (2*R)**2 *s)
 
-        # Axes 2
+        # Axis 2
 
         self.ax2 = fig.add_subplot(122)       
 
@@ -254,12 +256,14 @@ class Population:
             ani.save('ani.mp4',writer = writer)
 
 ######################################################################################################
+# Partes modificables del programa
 
-N = 100          # Numero de bolitas
+N = 40          # Numero de particulas
 E = 2000        # Numero de epocas
-A = 0.02        # Area relativa cubierta por bolitas
+A = 0.05        # Area relativa cubierta por bolitas
 
 #####################################################################################################
+
 Popp = Population(N,Arel=A)
 Popp.Simulate(E)
 Popp.Animate()
